@@ -6,6 +6,7 @@
 #include "EGR425_Phase1_weather_bitmap_images.h"
 #include "WiFi.h"
 #include <string>
+#include <Adafruit_BusIO_Register.h>
 
 ////////////////////////////////////////////////////////////////////
 // Variables
@@ -20,13 +21,8 @@ String apiKey = "29a54537e840e47cdb0839988a0a94b2";
 // https://api.openweathermap.org/data/2.5/weather?zip=92879,&appid=29a54537e840e47cdb0839988a0a94b2
 
 // TODO 1: WiFi variables
-String wifiNetworkName = "Point-B";
+String wifiNetworkName = "CBU";
 String wifiPassword = "";
-
-String wifiNetworkNameHome = "Point-B";
-String wifiPasswordHome = "";
-String wifiNetworkNameHS = "M5core";
-String wifiPasswordHS = "m5corecore";
 
 // Time variables
 unsigned long lastTime = 0;
@@ -34,7 +30,7 @@ unsigned long timerDelay = 5000; // 5000; 5 minutes (300,000ms) or 5 seconds (5,
 
 // clock for TODO 2
 WiFiUDP ntpUDP;
-NTPClient timeClient(ntpUDP);
+NTPClient timeClient(ntpUDP, "us.pool.ntp.org", -28800);
 String timeStamp;
 // String timeClient.getFormattedTime();
 
@@ -95,7 +91,6 @@ enum Mode
 };
 static State state = Temp_F;
 static Mode mode = F;
-
 
 ////////////////////////////////////////////////////////////////////
 // Method header declarations
@@ -177,14 +172,16 @@ void loop()
         btnBPressed = false;
     }
 
-    if (btnBPressed) {
+    if (btnBPressed)
+    {
         // draw your buttons
-    
-        
+
         // update values
-        if( dc1Inc.isPressed()) {
+        if (dc1Inc.isPressed())
+        {
             zip[0] += 1;
-            if (zip[0] > 9) {
+            if (zip[0] > 9)
+            {
                 zip[0] = 0;
             }
             Serial.println(zip[0]);
@@ -192,9 +189,11 @@ void loop()
             delay(100);
             newZip();
         }
-        if( dc2Inc.isPressed()) {
+        if (dc2Inc.isPressed())
+        {
             zip[1] += 1;
-            if (zip[1] > 9) {
+            if (zip[1] > 9)
+            {
                 zip[1] = 0;
             }
             Serial.println(zip[1]);
@@ -202,9 +201,11 @@ void loop()
             delay(100);
             newZip();
         }
-        if( dc3Inc.isPressed()) {
+        if (dc3Inc.isPressed())
+        {
             zip[2] += 1;
-            if (zip[2] > 9) {
+            if (zip[2] > 9)
+            {
                 zip[2] = 0;
             }
             Serial.println(zip[2]);
@@ -212,18 +213,22 @@ void loop()
             delay(100);
             newZip();
         }
-        if( dc4Inc.isPressed()) {
+        if (dc4Inc.isPressed())
+        {
             zip[3] += 1;
-            if (zip[3] > 9) {
+            if (zip[3] > 9)
+            {
                 zip[3] = 0;
             }
             Serial.println(zip[3]);
             delay(100);
             newZip();
         }
-        if( dc5Inc.isPressed()) {
+        if (dc5Inc.isPressed())
+        {
             zip[4] += 1;
-            if (zip[4] > 9) {
+            if (zip[4] > 9)
+            {
                 zip[4] = 0;
             }
             Serial.println(zip[4]);
@@ -235,10 +240,12 @@ void loop()
         M5.Lcd.fillTriangle(dc3Inc.x, dc3Inc.y + dc3Inc.h, dc3Inc.x + dc3Inc.w / 2, dc3Inc.y, dc3Inc.x + dc3Inc.w, dc3Inc.y + dc3Inc.h, dc3Inc.isPressed() ? BLACK : GREEN);
         M5.Lcd.fillTriangle(dc4Inc.x, dc4Inc.y + dc4Inc.h, dc4Inc.x + dc4Inc.w / 2, dc4Inc.y, dc4Inc.x + dc4Inc.w, dc4Inc.y + dc4Inc.h, dc4Inc.isPressed() ? BLACK : GREEN);
         M5.Lcd.fillTriangle(dc5Inc.x, dc5Inc.y + dc5Inc.h, dc5Inc.x + dc5Inc.w / 2, dc5Inc.y, dc5Inc.x + dc5Inc.w, dc5Inc.y + dc5Inc.h, dc5Inc.isPressed() ? BLACK : GREEN);
-       
-       if( dc1Dec.isPressed()) {
+
+        if (dc1Dec.isPressed())
+        {
             zip[0] -= 1;
-            if (zip[0] < 0) {
+            if (zip[0] < 0)
+            {
                 zip[0] = 9;
             }
             Serial.println(zip[0]);
@@ -246,9 +253,11 @@ void loop()
             delay(100);
             newZip();
         }
-        if( dc2Dec.isPressed()) {
+        if (dc2Dec.isPressed())
+        {
             zip[1] -= 1;
-            if (zip[1] < 0) {
+            if (zip[1] < 0)
+            {
                 zip[1] = 9;
             }
             Serial.println(zip[1]);
@@ -256,9 +265,11 @@ void loop()
             delay(100);
             newZip();
         }
-        if( dc3Dec.isPressed()) {
+        if (dc3Dec.isPressed())
+        {
             zip[2] -= 1;
-            if (zip[2] < 0) {
+            if (zip[2] < 0)
+            {
                 zip[2] = 9;
             }
             Serial.println(zip[2]);
@@ -266,9 +277,11 @@ void loop()
             delay(100);
             newZip();
         }
-        if( dc4Dec.isPressed()) {
+        if (dc4Dec.isPressed())
+        {
             zip[3] -= 1;
-            if (zip[3] < 0) {
+            if (zip[3] < 0)
+            {
                 zip[3] = 9;
             }
             Serial.println(zip[3]);
@@ -276,9 +289,11 @@ void loop()
             delay(100);
             newZip();
         }
-        if( dc5Dec.isPressed()) {
+        if (dc5Dec.isPressed())
+        {
             zip[4] -= 1;
-            if (zip[4] < 0) {
+            if (zip[4] < 0)
+            {
                 zip[4] = 9;
             }
             Serial.println(zip[4]);
@@ -287,9 +302,8 @@ void loop()
             newZip();
         }
 
-        
-        
-        if ((millis() - lastTime) > timerDelay) {
+        if ((millis() - lastTime) > timerDelay)
+        {
             newZip();
             lastTime = millis();
         }
@@ -311,27 +325,27 @@ void loop()
         {
             fetchWeatherDetails();
             drawWeatherDisplay();
-            //redesign();
+            // redesign();
         }
         else
         {
 
             if (WiFi.status() == WL_CONNECTED)
-        {
+            {
 
-            fetchWeatherDetails();
-            drawWeatherDisplay();
-            timeClient.update();
-            M5.Lcd.setCursor(150, 0);
-            M5.Lcd.print(timeClient.getFormattedTime());
-        }
-        else
-        {
-            Serial.println("WiFi Disconnected");
-        }
+                fetchWeatherDetails();
+                drawWeatherDisplay();
+                timeClient.update();
+                M5.Lcd.setCursor(150, 0);
+                M5.Lcd.print(timeClient.getFormattedTime());
+            }
+            else
+            {
+                Serial.println("WiFi Disconnected");
+            }
 
-        // Update the last time to NOW
-        lastTime = millis();
+            // Update the last time to NOW
+            lastTime = millis();
         }
 
         // Update the last time to NOW
@@ -342,7 +356,6 @@ void loop()
 ///////////////////////////////////////////////////////////////
 // make a method that redesigns the main screen copy some code from the drawWhether method
 
-
 /////////////////////////////////////////////////////////////////
 // This method is to change the zip code for pulling whether
 void newZip()
@@ -352,7 +365,6 @@ void newZip()
     M5.Lcd.setCursor(pad, pad);
 
     M5.Lcd.print("Enter Zipcode:");
- 
 
     // the sizeof fxn returns the size of the array in bytes,
     // divide by the data type used to get the proper array size
@@ -366,7 +378,6 @@ void newZip()
 
         // TODOz draw the up/down triangles
     }
-
 }
 
 /////////////////////////////////////////////////////////////////
@@ -387,7 +398,8 @@ void fetchWeatherDetails()
     // https://api.openweathermap.org/data/2.5/weather?zip=92879,us&units=imperial&appid=29a54537e840e47cdb0839988a0a94b2
     // https://api.openweathermap.org/data/2.5/weather?q=corona,ca,usa&units=imperial&appid=29a54537e840e47cdb0839988a0a94b2
     zipStr = "";
-    for (int i = 0; i < sizeof(zip)/sizeof(int); i++) {
+    for (int i = 0; i < sizeof(zip) / sizeof(int); i++)
+    {
         zipStr += (zip[i]);
     }
     Serial.println(zipStr);
@@ -442,14 +454,9 @@ void fetchWeatherDetails()
     tempMin = objMain["temp_min"];
     tempMax = objMain["temp_max"];
 
-    tempNowC = (tempNow - 32) * 5 / 9;
-    tempMinC = (tempMin - 32) * 5 / 9;
-    tempMaxC = (tempMax - 32) * 5 / 9;
-
     Serial.printf("NOW: %.1f F and %s\tMIN: %.1f F\tMax: %.1f F\n", tempNow, strWeatherDesc, tempMin, tempMax);
     Serial.printf("NOW: %.1f C and %s\tMIN: %.1f C\tMax: %.1f C\n", tempNowC, strWeatherDesc, tempMinC, tempMaxC);
 }
-
 
 /////////////////////////////////////////////////////////////////
 // Update the display based on the weather variables defined
