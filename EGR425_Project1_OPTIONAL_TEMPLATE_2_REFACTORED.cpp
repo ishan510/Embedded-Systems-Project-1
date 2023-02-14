@@ -15,8 +15,8 @@ String urlOpenWeather = "https://api.openweathermap.org/data/2.5/weather?";
 String apiKey = "0a64f9c0f63b2c6183d11dbc8b677a8e";
 
 // TODO 1: WiFi variables
-String wifiNetworkName = "CBU-up100";
-String wifiPassword = "";
+String wifiNetworkName = "SteelersNation-5G";
+String wifiPassword = "9b299822";
 WiFiUDP ntpUDP;
 NTPClient timeClient(ntpUDP, "us.pool.ntp.org", -28800);
 // Time variables
@@ -258,6 +258,10 @@ void drawWeatherDisplay()
         M5.Lcd.setTextColor(TFT_RED);
         M5.Lcd.setTextSize(3);
         M5.Lcd.printf("HI:%0.fC\n", (tempMax - 32) * 0.556);
+
+        M5.Lcd.setCursor(pad, 200);
+        M5.Lcd.setTextColor(primaryTextColor);
+        M5.Lcd.printf("%s\n", cityName.c_str());
     }
 }
 
