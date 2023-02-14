@@ -6,7 +6,6 @@
 #include "EGR425_Phase1_weather_bitmap_images.h"
 #include "WiFi.h"
 #include <string>
-#include <Adafruit_BusIO_Register.h>
 
 ////////////////////////////////////////////////////////////////////
 // Variables
@@ -21,8 +20,13 @@ String apiKey = "29a54537e840e47cdb0839988a0a94b2";
 // https://api.openweathermap.org/data/2.5/weather?zip=92879,&appid=29a54537e840e47cdb0839988a0a94b2
 
 // TODO 1: WiFi variables
-String wifiNetworkName = "CBU";
+String wifiNetworkName = "Point-B";
 String wifiPassword = "";
+
+String wifiNetworkNameHome = "Point-B";
+String wifiPasswordHome = "";
+String wifiNetworkNameHS = "M5core";
+String wifiPasswordHS = "m5corecore";
 
 // Time variables
 unsigned long lastTime = 0;
@@ -438,6 +442,9 @@ void fetchWeatherDetails()
     tempMin = objMain["temp_min"];
     tempMax = objMain["temp_max"];
 
+    tempNowC = (tempNow - 32) * 5 / 9;
+    tempMinC = (tempMin - 32) * 5 / 9;
+    tempMaxC = (tempMax - 32) * 5 / 9;
 
     Serial.printf("NOW: %.1f F and %s\tMIN: %.1f F\tMax: %.1f F\n", tempNow, strWeatherDesc, tempMin, tempMax);
     Serial.printf("NOW: %.1f C and %s\tMIN: %.1f C\tMax: %.1f C\n", tempNowC, strWeatherDesc, tempMinC, tempMaxC);
